@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSHU | Full Stack Visionary</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <div class="cyber-bg">
+        <div class="grid-overlay"></div>
+        <div class="scanner-line"></div>
+    </div>
+
+    <nav id="navbar" class="quantum-glass">
+        <div class="logo">ANSHU<span class="dot">.</span></div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#skills">Specializations</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header id="home">
+        <div class="hero-content quantum-glass" data-aos="zoom-in" data-aos-duration="1200">
+            <h1>ANSHU</h1>
+            <p id="typewriter-text">Architecting the Future of Web Systems...</p>
+            <a href="#skills" class="btn btn-cyan">View Specializations</a>
+        </div>
+    </header>
+
+    <section id="skills" class="section">
+        <div class="marquee-header" data-aos="fade-up">
+            <h2 class="section-title">Core Specializations</h2>
+            <p class="section-subtitle">Precision engineering across the modern tech stack.</p>
+        </div>
+        
+        <div class="marquee-container" data-aos="fade-in" data-aos-delay="200">
+            <div class="cert-track" id="cards-container">
+                <div class="cert-item quantum-glass"><div class="skill-content"><h3>Frontend</h3><p>React, Vue & 3D WebGL</p></div></div>
+                <div class="cert-item quantum-glass"><div class="skill-content"><h3>Backend</h3><p>Node.js, Python & Go</p></div></div>
+                <div class="cert-item quantum-glass"><div class="skill-content"><h3>Database</h3><p>PostgreSQL & Redis</p></div></div>
+                <div class="cert-item quantum-glass"><div class="skill-content"><h3>Cloud Arch</h3><p>AWS, Kubernetes & CI/CD</p></div></div>
+                
+                <div class="cert-item quantum-glass"><div class="skill-content"><h3>Frontend</h3><p>React, Vue & 3D WebGL</p></div></div>
+                <div class="cert-item quantum-glass"><div class="skill-content"><h3>Backend</h3><p>Node.js, Python & Go</p></div></div>
+                <div class="cert-item quantum-glass"><div class="skill-content"><h3>Database</h3><p>PostgreSQL & Redis</p></div></div>
+                <div class="cert-item quantum-glass"><div class="skill-content"><h3>Cloud Arch</h3><p>AWS, Kubernetes & CI/CD</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container contact-container">
+            <div class="contact-header" data-aos="fade-up">
+                <h2>Secure Uplink</h2>
+                <p>Open a direct channel for collaboration.</p>
+            </div>
+            
+            <div class="quantum-glass form-wrapper" data-aos="fade-up" data-aos-delay="150">
+                <form id="contactForm">
+                    <div class="input-row">
+                        <input type="text" id="name" placeholder="Target Name" required>
+                        <input type="email" id="email" placeholder="Return Address (Email)" required>
+                    </div>
+                    <textarea id="message" rows="5" placeholder="Transmission Payload..." required></textarea>
+                    <button type="submit" id="submitBtn" class="btn btn-cyan w-100">Broadcast Transmission</button>
+                    <p id="responseMsg" class="response-msg"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container quantum-glass-footer">
+            <p>&copy; 2026 ANSHU. Systems Online.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize Scroll Animations
+        AOS.init({ duration: 1000, once: true, offset: 50 });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // UPGRADE 1: Global Neon Spotlight Tracking Engine
+        // Now listens to the whole screen so the glow anticipates your mouse movement
+        document.body.addEventListener("mousemove", e => {
+            for(const card of document.querySelectorAll(".cert-item")) {
+                const rect = card.getBoundingClientRect(),
+                      x = e.clientX - rect.left,
+                      y = e.clientY - rect.top;
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            }
+        });
+
+        // UPGRADE 2: Terminal Typewriter Effect for the Hero Subtitle
+        window.addEventListener('load', () => {
+            const textElement = document.getElementById('typewriter-text');
+            const text = textElement.innerText;
+            textElement.innerText = '';
+            let i = 0;
+            
+            setTimeout(() => {
+                const typing = setInterval(() => {
+                    if (i < text.length) {
+                        textElement.innerHTML += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typing);
+                    }
+                }, 50); // Speed of typing
+            }, 1000); // Waits 1 second for the zoom-in animation to finish first
+        });
+
+        // Form Transmission Logic
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('submitBtn');
+                const msg = document.getElementById('responseMsg');
+                
+                btn.innerText = "Encrypting...";
+                btn.disabled = true;
+                msg.innerText = "";
+
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    message: document.getElementById('message').value
+                };
+
+                try {
+                    const res = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    if(res.ok) {
+                        msg.style.color = "#00f0ff";
+                        msg.innerText = "✓ Uplink Successful";
+                        contactForm.reset();
+                    } else throw new Error("Failed");
+                } catch (err) { 
+                    msg.style.color = "#ff3366";
+                    msg.innerText = "✕ Uplink Severed. Check server connection.";
+                } finally {
+                    btn.innerText = "Broadcast Transmission";
+                    btn.disabled = false;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
